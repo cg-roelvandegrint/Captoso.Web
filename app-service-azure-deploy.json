@@ -1,0 +1,31 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appServicePlanName": {
+            "type": "string",
+            "defaultValue": "asp-captoso-dns",
+            "metadata": {
+                "description": "The name of the app service plan you want this web app to run on."
+            }
+        },
+        "appServiceName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the app service app that you wish to create."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2019-08-01",
+            "name": "[parameters('appServiceName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[parameters('appServiceName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverFarms', parameters('appServicePlanName'))]"
+            }
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+trigger:
+  - main    
+
+jobs:
+  - job:
+    
+    variables:
+      - group: api-captoso-eu
+      - name: domainVerificationKey
+        value: 88F4AEBB36788F87616CF4AC6B5AF09A2C94999D14515F904E435CEF2C1AA55E
+
+    steps:
+      - task: AzureResourceGroupDeployment@2
+        name: DeployInfrastructure
+        displayName: Deploy Infrastructure
+        inputs:
+          azureSubscription: Captoso Web
+          resourceGroupName: rg-dns-client-app
+          location: West Europe
+          templateLocation: Linked artifact
+          csmFile: ./app-service-azure-deploy.json
+          overrideParameters: >
+            -appServicePlanName "$(appServicePlanName)"
+            -appServiceName "$(appServiceName)"
+      
+      - task: PowerShell@2
+        name: PrepareGoDaddyDns
+        displayName: Prepare GoDaddy DNS
+        env:
+          GODADDYSSOKEY: "$(goDaddySsoKey)"
+          GODADDYSSOSECRET: "$(goDaddySsoSecret)"
+        inputs:
+          targetType: filePath
+          filePath: ./configure-godaddy-dns.ps1
+          
+      - task: AzureResourceGroupDeployment@2
+        name: DeployInfrastructure2
+        displayName: Deploy Infrastructure2
+        inputs:
+          azureSubscription: Captoso Web
+          resourceGroupName: rg-dns-client-app
+          location: West Europe
+          templateLocation: Linked artifact
+          csmFile: ./custom-domain-azure-deploy.json
+          overrideParameters: >
+            -appServiceName "$(appServiceName)"
+            -customHostName "$(subDomain).$(domain)"
+      

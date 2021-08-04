@@ -12,7 +12,8 @@
 		"ms-vscode.azurecli",
 		"ms-dotnettools.vscode-dotnet-runtime",
 		"ms-azuretools.vscode-bicep",
-		"cschleiden.vscode-github-actions"
+		"cschleiden.vscode-github-actions",
+		"ms-vscode.vscode-node-azure-pack"
 	],
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

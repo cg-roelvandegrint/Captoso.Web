@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appServicePlanName": {
-            "value": "asp-captoso-web"
+            "value": "asp-captoso"
         },
         "appServiceName": {
             "value": "as-captoso-web"

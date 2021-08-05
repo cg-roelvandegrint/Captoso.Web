@@ -2,8 +2,8 @@ $goDaddySsoKey = $Env:GO_DADDY_SSO_KEY
 $goDaddySsoSecret = $Env:GO_DADDY_SSO_SECRET
 $appServiceName = $Env:APPSERVICENAME
 $domain = $Env:DOMAIN
-$subDomain = $Env:SUBDOMAIN
-$domainVerificationKey = $Env:DOMAINVERIFICATIONKEY
+$subDomain = $Env:SUB_DOMAIN
+$customDomainVerificationId = $Env:CUSTOM_DOMAIN_VERIFICATION_ID
 
 $authorizationHeader = @{ 
     'Authorization' = "sso-key $($goDaddySsoKey):$($goDaddySsoSecret)" 
@@ -56,7 +56,7 @@ Write-Output "Checking if TXT record is configured correctly"
 $txtRecordConfigured = @($records.Where( { 
             $_.type -eq "TXT" -and 
             $_.name -eq "asuid.$($subDomain)" -and
-            $_.data -eq $domainVerificationKey
+            $_.data -eq $customDomainVerificationId
         })).Count -gt 0
 
 if ($txtRecordConfigured) { 
@@ -69,7 +69,7 @@ else {
         @{
             type = "TXT";
             name = "asuid.$($subDomain)";
-            data = $domainVerificationKey;
+            data = $customDomainVerificationId;
         }
     )
 

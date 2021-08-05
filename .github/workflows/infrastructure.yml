@@ -34,6 +34,6 @@ jobs:
           APP_SERVICE_NAME: as-captoso-web
           DOMAIN: captoso.eu
           SUB_DOMAIN: roel
-          DOMAIN_VERIFICATION_KEY: ${{ steps.deploy.outputs.customDomainVerificationId }}
+          CUSTOM_DOMAIN_VERIFICATION_ID: ${{ steps.deploy.outputs.customDomainVerificationId }}
         shell: pwsh
         run: ./configure-godaddy-dns.ps1

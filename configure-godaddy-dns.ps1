@@ -22,7 +22,6 @@ $records = ConvertFrom-Json -InputObject $response.Content
 Write-Output "Checking if CNAME record is configured correctly"
 
 $cNameConfigured = @($records.Where( {
-            # the 'anotherapp' part should come from a parameter in the expression below
             $_.type -eq "CNAME" -and 
             $_.name -eq $subDomain -and
             $_.data -contains "$($appServiceName).azurewebsites.net"
@@ -41,6 +40,11 @@ else {
             data = "$($appServiceName).azurewebsites.net";
         }
     )
+
+    Write-Output "Domain: $domain"
+    Write-Output "Subdomain: $subDomain"
+    Write-Output "App service name: $appServiceName"
+    Write-Output ($body | ConvertTo-Json -AsArray)
 
     Invoke-WebRequest `
         -Uri "https://api.godaddy.com/v1/domains/$($domain)/records" `

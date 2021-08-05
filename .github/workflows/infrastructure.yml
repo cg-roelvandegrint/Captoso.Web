@@ -21,7 +21,7 @@ jobs:
         id: deploy
         uses: azure/arm-deploy@v1
         with:
-          scope: resourceGroup
+          scope: resourcegroup
           resourceGroupName: rg-captoso
           template: ./app-service.bicep
           parameters: ./app-service.parameters.json

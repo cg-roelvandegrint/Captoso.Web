@@ -29,8 +29,8 @@ jobs:
         
       - name: Configure GoDaddy DNS
         env:
-          GO_DADDY_SSO_KEY: MYKEY
-          GO_DADDY_SSO_SECRET: MYSECRETS
+          GO_DADDY_SSO_KEY: ${{ secrets.GO_DADDY_SSO_KEY }}
+          GO_DADDY_SSO_SECRET: ${{ secrets.GO_DADDY_SSO_secret }}
           APP_SERVICE_NAME: as-captoso-web
           DOMAIN: captoso.eu
           SUB_DOMAIN: roel

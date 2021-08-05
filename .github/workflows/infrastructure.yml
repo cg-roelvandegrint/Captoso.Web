@@ -6,6 +6,8 @@ jobs:
   app_service:
     name: Deploy Azure App Service
     runs-on: ubuntu-latest
+    env:
+      resourceGroupName: rg-captoso
     steps:
 
         # Checkout code
@@ -23,7 +25,7 @@ jobs:
         with:
           scope: resourcegroup
           # double, put in variable
-          resourceGroupName: rg-captoso
+          resourceGroupName: ${{ env.resourceGroupName }}
           template: ./app-service.bicep
           # appServiceName below is double in this action file, put in var
           parameters: >
@@ -48,7 +50,7 @@ jobs:
         with:
           scope: resourcegroup
           # double, put in variable
-          resourceGroupName: rg-captoso
+          resourceGroupName: ${{ env.resourceGroupName }}
           template: ./custom-domain.bicep
           # appServiceName below is double in this action file, put in var
           # Both parts of the customHostname same thing

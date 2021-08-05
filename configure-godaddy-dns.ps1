@@ -9,19 +9,17 @@ $authorizationHeader = @{
     'Authorization' = "sso-key $($goDaddySsoKey):$($goDaddySsoSecret)" 
 }
 
-Write-Host $authorizationHeader
-
-Write-Host "Retrieving DNS records for domain: $($domain)"
+Write-Output "Retrieving DNS records for domain: $($domain)"
 
 $response = Invoke-WebRequest `
     -Uri "https://api.godaddy.com/v1/domains/$($domain)/records" `
     -Headers $authorizationHeader
 
-Write-Host "DNS records retrieved"
+Write-Output "DNS records retrieved"
 
 $records = ConvertFrom-Json -InputObject $response.Content
 
-Write-Host "Checking if CNAME record is configured correctly"
+Write-Output "Checking if CNAME record is configured correctly"
 
 $cNameConfigured = @($records.Where( {
             # the 'anotherapp' part should come from a parameter in the expression below
@@ -31,10 +29,10 @@ $cNameConfigured = @($records.Where( {
         })).Count -gt 0
 
 if ($cNameConfigured) {
-    Write-Host "CNAME record correct"
+    Write-Output "CNAME record correct"
 }
 else {
-    Write-Host "CNAME record not configured, configuring now"
+    Write-Output "CNAME record not configured, configuring now"
     
     $body = @(
         @{
@@ -51,10 +49,10 @@ else {
         -Body ($body | ConvertTo-Json -AsArray) `
         -Headers $authorizationHeader
 
-    Write-Host "CNAME record configured successfully"
+    Write-Output "CNAME record configured successfully"
 }
 
-Write-Host "Checking if TXT record is configured correctly"
+Write-Output "Checking if TXT record is configured correctly"
 $txtRecordConfigured = @($records.Where( { 
             $_.type -eq "TXT" -and 
             $_.name -eq "asuid.$($subDomain)" -and
@@ -62,10 +60,10 @@ $txtRecordConfigured = @($records.Where( {
         })).Count -gt 0
 
 if ($txtRecordConfigured) { 
-    Write-Host "TXT record correct"
+    Write-Output "TXT record correct"
 }
 else {
-    Write-Host "TXT record not configured, configuring now..."
+    Write-Output "TXT record not configured, configuring now..."
 
     $body = @(
         @{
@@ -82,5 +80,5 @@ else {
         -Body ($body | ConvertTo-Json -AsArray) `
         -Headers $authorizationHeader
 
-    Write-Host "TXT record configured successfully"
+    Write-Output "TXT record configured successfully"
 }

@@ -17,3 +17,5 @@ resource appService 'Microsoft.Web/sites@2021-01-15' = {
     serverFarmId: appServicePlan.id
   }
 }
+
+output customDomainVerificationId string = appService.properties.customDomainVerificationId

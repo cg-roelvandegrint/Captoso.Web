@@ -1,6 +1,6 @@
 $goDaddySsoKey = $Env:GO_DADDY_SSO_KEY
 $goDaddySsoSecret = $Env:GO_DADDY_SSO_SECRET
-$appServiceName = $Env:APPSERVICENAME
+$appServiceName = $Env:APP_SERVICE_NAME
 $domain = $Env:DOMAIN
 $subDomain = $Env:SUB_DOMAIN
 $customDomainVerificationId = $Env:CUSTOM_DOMAIN_VERIFICATION_ID

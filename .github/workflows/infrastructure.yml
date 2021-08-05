@@ -22,9 +22,14 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           scope: resourcegroup
+          # double, put in variable
           resourceGroupName: rg-captoso
           template: ./app-service.bicep
-          parameters: ./app-service.parameters.json
+          # appServiceName below is double in this action file, put in var
+          parameters: >
+            location="West Europe"
+            appServicePlanName="asp-captoso"
+            appServiceName="as-captoso-web"
           failOnStdErr: false
         
       - name: Configure GoDaddy DNS
@@ -37,3 +42,16 @@ jobs:
           CUSTOM_DOMAIN_VERIFICATION_ID: ${{ steps.deploy.outputs.customDomainVerificationId }}
         shell: pwsh
         run: ./configure-godaddy-dns.ps1
+
+      - name: Configure app service custom domain
+        uses: azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          # double, put in variable
+          resourceGroupName: rg-captoso
+          template: ./custom-domain.bicep
+          # appServiceName below is double in this action file, put in var
+          # Both parts of the customHostname same thing
+          parameters: >
+            appServiceName="as-captoso-web"
+            customHostname="roel.captoso.eu"

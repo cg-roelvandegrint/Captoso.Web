@@ -41,11 +41,6 @@ else {
         }
     )
 
-    Write-Output "Domain: $domain"
-    Write-Output "Subdomain: $subDomain"
-    Write-Output "App service name: $appServiceName"
-    Write-Output ($body | ConvertTo-Json -AsArray)
-
     Invoke-WebRequest `
         -Uri "https://api.godaddy.com/v1/domains/$($domain)/records" `
         -Method Patch `
